@@ -463,6 +463,7 @@ export function Contact() {
     e.preventDefault()
     setIsSubmitting(true)
 
+    let result: any = null
     try {
       // Save message to database
       const response = await fetch('/api/contact', {
@@ -471,10 +472,12 @@ export function Contact() {
         body: JSON.stringify(formData)
       })
 
-      const result = await response.json()
+      result = await response.json()
 
       if (!response.ok) {
-        throw new Error(result.error || 'Failed to send message')
+        // Include more error details
+        const errorMsg = result.message || result.error || 'Failed to send message'
+        throw new Error(errorMsg)
       }
 
       // Format WhatsApp message with structured content
@@ -504,7 +507,10 @@ _Message sent from portfolio contact form_`
       setFormData({ name: "", email: "", subject: "", message: "" })
     } catch (error: any) {
       console.error('Error submitting form:', error)
-      toast.error(error.message || 'Failed to send message. Please try again.')
+      // Show more detailed error message
+      const errorMessage = error.message || result?.message || result?.error || 'Failed to send message. Please try again.'
+      toast.error(errorMessage)
+      console.error('Full error details:', { error, result, formData })
     } finally {
       setIsSubmitting(false)
     }

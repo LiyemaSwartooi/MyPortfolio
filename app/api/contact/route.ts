@@ -23,21 +23,27 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error('Error inserting contact message:', error)
-      // Return more specific error message for debugging
+      // Return the actual error message for debugging
       return NextResponse.json(
         { 
           error: 'Failed to send message',
-          details: process.env.NODE_ENV === 'development' ? error.message : undefined
+          message: error.message,
+          code: error.code,
+          details: error.details
         },
         { status: 500 }
       )
     }
 
     return NextResponse.json({ success: true, data }, { status: 201 })
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error in contact API:', error)
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { 
+        error: 'Internal server error',
+        message: error?.message || 'Unknown error',
+        stack: process.env.NODE_ENV === 'development' ? error?.stack : undefined
+      },
       { status: 500 }
     )
   }
