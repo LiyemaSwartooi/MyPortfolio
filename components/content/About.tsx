@@ -1571,21 +1571,46 @@ export function About() {
                         {profile?.full_name || "Your Name"}
                       </h3>
                       <p className="text-base font-medium text-gray-600 mt-1 md:text-sm md:mt-0.5">
-                        {profile?.title || "Your Title"}
+                        {profile?.title || ""}
                       </p>
+                      {(profile?.website_url || profile?.github_url || profile?.email) && (
+                        <div className="text-sm text-gray-600 mt-2 space-x-2 break-words md:text-xs">
+                          {profile?.website_url && (
+                            <a 
+                              href={profile.website_url} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:text-blue-800 hover:underline"
+                            >
+                              {profile.website_url}
+                            </a>
+                          )}
+                          {profile?.website_url && profile?.github_url && <span>|</span>}
+                          {profile?.github_url && (
+                            <a 
+                              href={profile.github_url} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:text-blue-800 hover:underline"
+                            >
+                              {profile.github_url}
+                            </a>
+                          )}
+                          {(profile?.website_url || profile?.github_url) && profile?.email && <span>|</span>}
+                          {profile?.email && (
+                            <a 
+                              href={`mailto:${profile.email}`}
+                              className="text-blue-600 hover:text-blue-800 hover:underline"
+                            >
+                              {profile.email}
+                            </a>
+                          )}
+                        </div>
+                      )}
                     </div>
                     <p className="text-base leading-relaxed text-gray-700 whitespace-pre-line md:text-sm">
                       {profile?.bio || "Write something about yourself..."}
                     </p>
-                    {(profile?.website_url || profile?.github_url || profile?.email) && (
-                      <p className="text-sm text-gray-600 mt-3 break-words md:text-xs md:mt-2">
-                        {profile?.website_url || ''}
-                        {profile?.website_url && profile?.github_url && '|'}
-                        {profile?.github_url || ''}
-                        {(profile?.website_url || profile?.github_url) && profile?.email && '|'}
-                        {profile?.email || ''}
-                      </p>
-                    )}
                   </>
                 )}
               </div>
