@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Download, Share2, FileText, Plus, Save, Trash2 } from "lucide-react"
+import { FileText, Plus, Save, Trash2 } from "lucide-react"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useEditMode } from "@/contexts/EditModeContext"
 import { toast } from "sonner"
@@ -239,99 +239,6 @@ export function Resume() {
     }
   }
 
-  const handleDownload = () => {
-    if (!cvRef.current) return
-    
-    const printWindow = window.open('', '_blank')
-    if (!printWindow) return
-
-    const htmlContent = `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <title>${profile?.full_name || 'Resume'}</title>
-          <style>
-            @media print {
-              @page { margin: 0.5in; }
-            }
-            body {
-              font-family: Arial, sans-serif;
-              max-width: 8.5in;
-              margin: 0 auto;
-              padding: 20px;
-              line-height: 1.6;
-              color: #333;
-            }
-            .header {
-              text-align: center;
-              border-bottom: 2px solid #333;
-              padding-bottom: 10px;
-              margin-bottom: 20px;
-            }
-            .header h1 {
-              margin: 0;
-              font-size: 24px;
-              font-weight: bold;
-            }
-            .header p {
-              margin: 5px 0;
-              font-size: 12px;
-            }
-            .section {
-              margin-bottom: 20px;
-            }
-            .section-title {
-              font-size: 16px;
-              font-weight: bold;
-              text-transform: uppercase;
-              border-bottom: 1px solid #ccc;
-              padding-bottom: 5px;
-              margin-bottom: 10px;
-            }
-            .section-content {
-              font-size: 12px;
-              white-space: pre-line;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <h1>${profile?.full_name || 'Your Name'}</h1>
-            <p>${profile?.website_url || ''} ${profile?.website_url && profile?.github_url ? '| ' : ''}${profile?.github_url || ''} ${(profile?.website_url || profile?.github_url) && profile?.email ? '| ' : ''}${profile?.email || ''} ${(profile?.website_url || profile?.github_url || profile?.email) && profile?.phone ? '| ' : ''}${profile?.phone || ''}</p>
-          </div>
-          ${cvSections.map((section: any) => `
-            <div class="section">
-              <div class="section-title">${section.title}</div>
-              <div class="section-content">${section.content}</div>
-            </div>
-          `).join('')}
-        </body>
-      </html>
-    `
-    
-    printWindow.document.write(htmlContent)
-    printWindow.document.close()
-    printWindow.focus()
-    setTimeout(() => {
-      printWindow.print()
-    }, 250)
-  }
-
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: `${profile?.full_name || 'Resume'}'s CV`,
-        text: 'Check out my CV',
-        url: window.location.href
-      }).catch(() => {
-        navigator.clipboard.writeText(window.location.href)
-        toast.success('Link copied to clipboard!')
-      })
-    } else {
-      navigator.clipboard.writeText(window.location.href)
-      toast.success('Link copied to clipboard!')
-    }
-  }
 
   if (loading) {
     return (
@@ -363,28 +270,6 @@ export function Resume() {
               <FileText className="h-4 w-4 text-blue-500" />
               CV Template
             </CardTitle>
-                {!isEditMode && (
-                  <div className="flex gap-2">
-                    <Button 
-                      size="sm" 
-                  variant="outline"
-                  onClick={handleDownload}
-                  className="h-8"
-                    >
-                  <Download className="h-4 w-4 mr-1" />
-                  Download
-                    </Button>
-                    <Button 
-                      size="sm" 
-                  variant="outline"
-                  onClick={handleShare}
-                  className="h-8"
-                    >
-                  <Share2 className="h-4 w-4 mr-1" />
-                  Share
-                    </Button>
-                  </div>
-                )}
               </div>
             </CardHeader>
         <CardContent className="pt-0">
@@ -400,8 +285,6 @@ export function Resume() {
                 {profile?.github_url && <span>{profile.github_url}</span>}
                 {(profile?.website_url || profile?.github_url) && profile?.email && <span>|</span>}
                 {profile?.email && <span>{profile.email}</span>}
-                {(profile?.website_url || profile?.github_url || profile?.email) && profile?.phone && <span>|</span>}
-                {profile?.phone && <span>{profile.phone}</span>}
               </div>
                 </div>
 
