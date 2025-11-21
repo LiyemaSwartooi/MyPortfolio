@@ -297,8 +297,7 @@ export function Resume() {
         <body>
           <div class="header">
             <h1>${profile?.full_name || 'Your Name'}</h1>
-            <p>${profile?.title || 'Your Title'}</p>
-            <p>${profile?.location || ''} ${profile?.email ? '| ' + profile.email : ''}</p>
+            <p>${profile?.website_url || ''} ${profile?.website_url && profile?.github_url ? '| ' : ''}${profile?.github_url || ''} ${(profile?.website_url || profile?.github_url) && profile?.email ? '| ' : ''}${profile?.email || ''} ${(profile?.website_url || profile?.github_url || profile?.email) && profile?.phone ? '| ' : ''}${profile?.phone || ''}</p>
           </div>
           ${cvSections.map((section: any) => `
             <div class="section">
@@ -395,13 +394,15 @@ export function Resume() {
               <h1 className="text-2xl font-bold text-gray-900 mb-2">
                 {profile?.full_name || 'Your Name'}
               </h1>
-              <p className="text-base font-medium text-gray-700 mb-1">
-                {profile?.title || 'Your Title'}
-              </p>
-              <div className="text-sm text-gray-600 space-x-2">
-                {profile?.location && <span>{profile.location}</span>}
-                {profile?.email && <span>| {profile.email}</span>}
-                    </div>
+              <div className="text-sm text-gray-600 space-x-2 break-words">
+                {profile?.website_url && <span>{profile.website_url}</span>}
+                {profile?.website_url && profile?.github_url && <span>|</span>}
+                {profile?.github_url && <span>{profile.github_url}</span>}
+                {(profile?.website_url || profile?.github_url) && profile?.email && <span>|</span>}
+                {profile?.email && <span>{profile.email}</span>}
+                {(profile?.website_url || profile?.github_url || profile?.email) && profile?.phone && <span>|</span>}
+                {profile?.phone && <span>{profile.phone}</span>}
+              </div>
                 </div>
 
             {/* CV Sections */}
