@@ -314,7 +314,6 @@ The application includes comprehensive API routes for:
 For questions about this portfolio or to discuss opportunities:
 
 - **Email**: liyemaswartbooi77@gmail.com
-- **Phone**: +27 69 465 4988
 - **GitHub**: [https://github.com/LiyemaSwartooi](https://github.com/LiyemaSwartooi)
 - **Location**: South Africa
 

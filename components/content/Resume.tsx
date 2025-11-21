@@ -298,7 +298,7 @@ export function Resume() {
           <div class="header">
             <h1>${profile?.full_name || 'Your Name'}</h1>
             <p>${profile?.title || 'Your Title'}</p>
-            <p>${profile?.location || ''} ${profile?.email ? '| ' + profile.email : ''} ${profile?.phone ? '| ' + profile.phone : ''}</p>
+            <p>${profile?.location || ''} ${profile?.email ? '| ' + profile.email : ''}</p>
           </div>
           ${cvSections.map((section: any) => `
             <div class="section">
@@ -401,7 +401,6 @@ export function Resume() {
               <div className="text-sm text-gray-600 space-x-2">
                 {profile?.location && <span>{profile.location}</span>}
                 {profile?.email && <span>| {profile.email}</span>}
-                {profile?.phone && <span>| {profile.phone}</span>}
                     </div>
                 </div>
 

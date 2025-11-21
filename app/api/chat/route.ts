@@ -69,7 +69,7 @@ async function getPortfolioContext(supabase: any): Promise<string> {
       contactResult,
       socialResult
     ] = await Promise.all([
-      supabase.from('profiles').select('full_name, title, bio, summary, location, email, phone, subtitle').single(),
+      supabase.from('profiles').select('full_name, title, bio, summary, location, email, subtitle').single(),
       supabase.from('projects').select('title, description, status, github_url, demo_url').order('display_order').limit(10),
       supabase.from('experiences').select('title, company, description, start_date, end_date, is_current').order('start_date', { ascending: false }).limit(10),
       supabase.from('skill_categories').select('title, skills(name)').order('display_order').limit(10),
@@ -92,7 +92,6 @@ async function getPortfolioContext(supabase: any): Promise<string> {
       if (profile.summary) context.push(`Summary: ${profile.summary}`)
       if (profile.location) context.push(`Location: ${profile.location}`)
       if (profile.email) context.push(`Email: ${profile.email}`)
-      if (profile.phone) context.push(`Phone: ${profile.phone}`)
     }
 
     const projects = projectsResult.data
