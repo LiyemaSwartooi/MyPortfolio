@@ -23,38 +23,6 @@ export async function POST(request: Request) {
       // Fallback to anon key if service role not available
       const { supabaseAnonKey } = getEnv()
       supabase = createClient(supabaseUrl, supabaseAnonKey)
-      
-      const body = await request.json()
-      
-      const { name, email, subject, message } = body
-
-      if (!name || !email || !subject || !message) {
-        return NextResponse.json(
-          { error: 'All fields are required' },
-          { status: 400 }
-        )
-      }
-
-      const { data, error } = await supabase
-        .from('contact_messages')
-        .insert([{ name, email, subject, message }])
-        .select()
-        .single()
-
-      if (error) {
-        console.error('Error inserting contact message:', error)
-        return NextResponse.json(
-          { 
-            error: 'Failed to send message',
-            message: error.message,
-            code: error.code,
-            details: error.details
-          },
-          { status: 500 }
-        )
-      }
-
-      return NextResponse.json({ success: true, data }, { status: 201 })
     }
     
     // Common code for both service role and anon key
