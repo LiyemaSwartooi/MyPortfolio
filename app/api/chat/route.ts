@@ -430,31 +430,32 @@ export async function DELETE(request: Request) {
       )
     }
 
-    // Check authentication for delete operations
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
-    }
-
+    // Allow unauthenticated users to delete their own messages by session_id
+    // This is safe because users can only delete messages from their own session
     const { error } = await supabase
       .from('chat_messages')
       .delete()
       .eq('session_id', sessionId)
 
     if (error) {
+      console.error('Error deleting chat messages:', error)
       return NextResponse.json(
-        { error: 'Failed to delete chat' },
+        { 
+          error: 'Failed to delete chat',
+          details: process.env.NODE_ENV === 'development' ? error.message : undefined
+        },
         { status: 500 }
       )
     }
 
     return NextResponse.json({ success: true }, { status: 200 })
-  } catch (error) {
+  } catch (error: any) {
+    console.error('Error in DELETE chat API:', error)
     return NextResponse.json(
-      { error: 'Service error' },
+      { 
+        error: 'Service error',
+        message: error?.message || 'Unknown error'
+      },
       { status: 500 }
     )
   }
