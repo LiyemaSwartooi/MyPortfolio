@@ -1577,6 +1577,15 @@ export function About() {
                     <p className="text-base leading-relaxed text-gray-700 whitespace-pre-line md:text-sm">
                       {profile?.bio || "Write something about yourself..."}
                     </p>
+                    {(profile?.website_url || profile?.github_url || profile?.email) && (
+                      <p className="text-sm text-gray-600 mt-3 break-words md:text-xs md:mt-2">
+                        {profile?.website_url || ''}
+                        {profile?.website_url && profile?.github_url && '|'}
+                        {profile?.github_url || ''}
+                        {(profile?.website_url || profile?.github_url) && profile?.email && '|'}
+                        {profile?.email || ''}
+                      </p>
+                    )}
                   </>
                 )}
               </div>
