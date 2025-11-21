@@ -285,6 +285,8 @@ export function Resume() {
                 {profile?.github_url && <span>{profile.github_url}</span>}
                 {(profile?.website_url || profile?.github_url) && profile?.email && <span>|</span>}
                 {profile?.email && <span>{profile.email}</span>}
+                {(profile?.website_url || profile?.github_url || profile?.email) && profile?.phone && <span>|</span>}
+                {profile?.phone && <span>{profile.phone}</span>}
               </div>
                 </div>
 
