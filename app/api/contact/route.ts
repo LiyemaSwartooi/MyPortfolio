@@ -23,8 +23,12 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error('Error inserting contact message:', error)
+      // Return more specific error message for debugging
       return NextResponse.json(
-        { error: 'Failed to send message' },
+        { 
+          error: 'Failed to send message',
+          details: process.env.NODE_ENV === 'development' ? error.message : undefined
+        },
         { status: 500 }
       )
     }
